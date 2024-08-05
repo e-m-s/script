@@ -1,0 +1,5 @@
+for url in `cat yt-dl-list.txt`
+do 
+    echo "\n\n=============== " $url "===============\n\n" 
+    yt-dlp --embed-chapters --embed-subs $url
+done

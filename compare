@@ -1,0 +1,4 @@
+left=$1
+right=$2
+diff -x "desktop.ini" -x ".DS_Store" -rq "$left" "$right" | sed "s#^Files $left#<<< #g" | sed "s#^Only in $left#<<< #g" | sed "s#^Only in $right#>>> #g" | sed "s#$left#<<<#g" | sed "s#$right#>>>#g" > comparison.txt
+cat comparison.txt
