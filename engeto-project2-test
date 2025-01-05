@@ -1,0 +1,73 @@
+# Engeto Projekt 2 testovací data:
+#—— Script start ——
+
+echo off
+
+echo "=====Generate script======"
+echo "import json" > filter-id.py
+echo "import fileinput" >> filter-id.py
+echo "import sys" >> filter-id.py
+echo "" >> filter-id.py
+echo "try:" >> filter-id.py
+echo "   input_line = input()" >> filter-id.py
+echo "except EOFError:" >> filter-id.py
+echo "   pass" >> filter-id.py
+echo "json_array = json.loads(input_line)" >> filter-id.py
+echo "for item in json_array:" >> filter-id.py
+echo "   print('(',item['id'],',',item['name'],',',item['quantity'],',',item['price'],')', end='')" >> filter-id.py
+echo "print()" >> filter-id.py
+ 
+echo "=====Empty list at the beginning: "
+curl --location --request GET 'localhost:8080/cryptos'
+echo "---- "
+
+echo "=====Add test data: "
+curl --location --request POST 'localhost:8080/cryptos' \
+--header 'Content-Type: application/json' \
+--data '{
+  "id": 11,
+  "name": "Ethereum",
+  "symbol": "ETH",
+  "price": 3000.0,
+  "quantity": 60.0
+}
+'
+
+curl --location --request POST 'localhost:8080/cryptos' \
+--header 'Content-Type: application/json' \
+--data '{
+  "id": 22,
+  "name": "Bitcoin",
+  "symbol": "BTC",
+  "price": 40000.0,
+  "quantity": 0.35
+} 
+'
+
+curl --location --request POST 'localhost:8080/cryptos' \
+--header 'Content-Type: application/json' \
+--data '{
+  "id": 33,
+  "name": "Cardano",
+  "symbol": "ADA",
+  "price": 1.5,
+  "quantity": 0.05
+}
+'
+
+echo "=====All: "
+curl --location --request GET 'localhost:8080/cryptos' 2> /dev/null | python filter-id.py
+
+echo .
+echo "=====Sort by name: "
+curl --location 'localhost:8080/cryptos?sort=name' 2> /dev/null | python filter-id.py
+
+echo .
+echo "=====Sort by price: "
+curl --location 'localhost:8080/cryptos?sort=price' 2> /dev/null | python filter-id.py
+
+echo .
+echo "=====Sort by quantity: "
+curl --location 'localhost:8080/cryptos?sort=quantity' 2> /dev/null | python filter-id.py
+
+
