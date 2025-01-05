@@ -58,15 +58,15 @@ curl --location --request POST 'localhost:8080/cryptos' \
 echo "=====All: "
 curl --location --request GET 'localhost:8080/cryptos' 2> /dev/null | python filter-id.py
 
-echo .
+#echo .
 echo "=====Sort by name: "
 curl --location 'localhost:8080/cryptos?sort=name' 2> /dev/null | python filter-id.py
 
-echo .
+#echo .
 echo "=====Sort by price: "
 curl --location 'localhost:8080/cryptos?sort=price' 2> /dev/null | python filter-id.py
 
-echo .
+#echo .
 echo "=====Sort by quantity: "
 curl --location 'localhost:8080/cryptos?sort=quantity' 2> /dev/null | python filter-id.py
 
